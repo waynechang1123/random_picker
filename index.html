@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Gradient Background with Centered Image</title>
+  <title>Random Number Generator</title>
   <style>
     html, body {
       height: 100%;
@@ -10,15 +10,130 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+      flex-direction: column; /* 讓元素在垂直方向排列 */
+      
+      background-image: linear-gradient(to top, #d299c2 0%, #fef9d7 100%);
+      font-family: Arial, sans-serif; /* 使用 Arial 字體，如果沒有此字體則使用 sans-serif 作為備用字體 */
     }
-    img {
-      max-width: 100%;
-      max-height: 100%;
+    #refreshIcon {
+      cursor: pointer;
+      margin-bottom: 20px; /* 圖示與隨機數字之間的間距 */
+      width: auto; /* 設定 SVG 圖檔的寬度為自動調整 */
+      height: auto; /* 設定 SVG 圖檔的高度為自動調整 */
+      max-width: 100%; /* 最大寬度為父元素的寬度 */
+      max-height: 100%; /* 最大高度為父元素的高度 */
+      transition: transform 0.3s ease; /* 加入移動的過渡效果 */
+    }
+   
+
+    /* 定義點擊後的晃動動畫 */
+    @keyframes swing {
+      20% {
+        transform: rotate(15deg);
+      }
+      40% {
+        transform: rotate(-10deg);
+      }
+      60% {
+        transform: rotate(5deg);
+      }
+      80% {
+        transform: rotate(-5deg);
+      }
+      100% {
+        transform: rotate(0deg);
+      }
+    }
+
+    /* 當點擊時套用動畫效果 */
+    #refreshIcon.clicked {
+      animation: swing 0.5s ease;
+    }
+
+     #randomNumber {
+      font-size: 8vh;
+      font-weight: bold; /* 設定粗體 */
+    }
+
+    #company {
+      position: fixed; /* 設定為固定位置 */
+      top: 50px; /* 距離上方的距離為 50px */
+      padding: 10px; /* 加上一些內間 */
+      width: 100%; /* 橫向寬度 100% */
+      text-align: center; /* 文字置中 */
+      font-weight: bold; /* 粗體 */
+      font-size: 8vh;
+      color: #272829;
+    }
+    #activity {
+      position: fixed; /* 設定為固定位置 */
+      top: 50px; /* 距離上方的距離為 50px */
+      padding: 10px; /* 加上一些內間 */
+      width: 100%; /* 橫向寬度 100% */
+      text-align: center; /* 文字置中 */
+      font-weight: bold; /* 粗體 */
+      font-size: 6vh;
+      color: #272829;
+      margin-top: 10vh; /* 上方間距為 20px */
+    }
+    #company-logo {
+      position: fixed; /* 設定為固定位置 */
+      bottom: 20px; /* 距離底部的距離為 20px */
+      right: 20px; /* 距離右邊的距離為 20px */
+      width: 250px; /* 圖片寬度 */
+      height: auto; /* 圖片高度自動調整 */
     }
   </style>
 </head>
 <body>
-  <img src="logo.jpg" alt="Centered Image">
+  <div id="company">三泰股份有限公司</div>
+  <div id="activity">2023 年終餐會</div>   
+  <div id="randomNumber">中獎號碼:  </div>
+  <img id="company-logo" src="logo.png" alt="Company Logo">
+  <img id="refreshIcon" src="gift.svg" onclick="generateRandomNumber()" alt="Refresh Icon">
+
+  <script>
+    function generateRandomNumber() {
+      var randomNumber = Math.floor(Math.random() * 131);
+      document.getElementById("randomNumber").innerHTML = "中獎號碼: " + randomNumber;
+      
+      // 在點擊後為圖示添加 'clicked' class 以啟動動畫效果
+      document.getElementById("refreshIcon").classList.add("clicked");
+      
+      // 0.5秒後移除 'clicked' class 以便下一次動畫
+      setTimeout(function(){
+        document.getElementById("refreshIcon").classList.remove("clicked");
+      }, 500);
+    }
+
+    // 計算並設定 SVG 圖檔的大小
+    window.addEventListener('load', function() {
+      var refreshIcon = document.getElementById('refreshIcon');
+      var screenWidth = window.innerWidth;
+      var screenHeight = window.innerHeight;
+      
+      // 計算適當的寬度和高度
+      var iconWidth = screenWidth / 3; // 將螢幕寬度分成16等份
+      var iconHeight = screenHeight / 3; // 將螢幕高度分成16等份
+      
+      // 設定圖示的寬度和高度
+      refreshIcon.style.width = iconWidth + 'px';
+      refreshIcon.style.height = iconHeight + 'px';
+    });
+
+    window.addEventListener('resize', function() {
+      var refreshIcon = document.getElementById('refreshIcon');
+      var screenWidth = window.innerWidth;
+      var screenHeight = window.innerHeight;
+      
+      // 計算適當的寬度和高度
+      var iconWidth = screenWidth / 3; // 將螢幕寬度分成16等份
+      var iconHeight = screenHeight / 3; // 將螢幕高度分成16等份
+      
+      // 設定圖示的寬度和高度
+      refreshIcon.style.width = iconWidth + 'px';
+      refreshIcon.style.height = iconHeight + 'px';
+    });
+  </script>
 </body>
 </html>
