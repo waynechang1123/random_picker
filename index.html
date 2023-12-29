@@ -47,15 +47,15 @@
         width: 100%; /* 橫向寬度 100% */
         text-align: center; /* 文字置中 */
         font-weight: bold; /* 粗體 */
-        font-size: 8vh;
-        color: #272829;
+        font-size: 10vh;
+        color: #0174be;
       }
       #activity {
         width: 100%; /* 橫向寬度 100% */
         text-align: center; /* 文字置中 */
         font-weight: bold; /* 粗體 */
         font-size: 8vh;
-        color: #566465;
+        color: #ce5a67;
       }
       #randomNumber {
         width: 100%; /* 橫向寬度 100% */
@@ -121,13 +121,14 @@
         Your browser does not support the audio element.
       </audio>
       <audio id="after_clickSound">
-        <source src="poka.mp3" type="audio/mpeg" />
+        <source src="winning.mp3" type="audio/mpeg" />
         Your browser does not support the audio element.
       </audio>
 
       <script>
         var generatedNumbers = [];
         function generateRandomNumber() {
+          document.getElementById("randomNumber").innerHTML = "幸運號碼: ";
           var clickSound = document.getElementById("clickSound");
           clickSound.play();
 
@@ -145,16 +146,24 @@
           // 將生成的數字加入陣列
           generatedNumbers.push(randomNumber);
           var formattedNumber = randomNumber.toString().padStart(3, "0");
-          document.getElementById("randomNumber").innerHTML =
-            "中獎號碼: " + formattedNumber;
+          var currentDigit = 0; // 從百位數開始
+          var interval = setInterval(function () {
+            if (currentDigit > 2) {
+              clearInterval(interval); // 停止定時器
+              return;
+            }
 
+            document.getElementById("randomNumber").innerHTML +=
+              formattedNumber[currentDigit] + "&nbsp;"; // 逐步顯示數字的每一位
+            currentDigit++;
+          }, 800); // 每隔500毫秒顯示一位數字
           // 在點擊後為圖示添加 'clicked' class 以啟動動畫效果
           document.getElementById("refreshIcon").classList.add("clicked");
 
           // 0.5秒後移除 'clicked' class 以便下一次動畫
           setTimeout(function () {
             document.getElementById("refreshIcon").classList.remove("clicked");
-          }, 1000);
+          }, 700);
           clickSound.onended = function () {
             var after_clickSound = document.getElementById("after_clickSound");
             after_clickSound.play();
